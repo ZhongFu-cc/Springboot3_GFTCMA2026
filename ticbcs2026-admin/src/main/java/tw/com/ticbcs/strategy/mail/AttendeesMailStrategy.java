@@ -159,7 +159,7 @@ public class AttendeesMailStrategy implements MailStrategy {
 
 	private String replaceAttendeesMergeTag(String content, AttendeesVO attendeesVO) {
 
-		String qrCodeUrl = String.format("https://iopbs.org.tw/prod-api/attendees/qrcode?attendeesId=%s",
+		String qrCodeUrl = String.format("https://ticbcs.org.tw/prod-api/attendees/qrcode?attendeesId=%s",
 				attendeesVO.getAttendeesId());
 
 		String newContent = content.replace("{{QRcode}}", "<img src=\"" + qrCodeUrl + "\" alt=\"QR Code\" />")
