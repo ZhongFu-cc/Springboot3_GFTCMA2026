@@ -37,28 +37,28 @@ jobs:
         MERCHANT_KEY: ${{ secrets.MERCHANT_KEY }}
 
       run: |
-        envsubst < ticbcs2026-admin/src/main/resources/application-prod.yml > ticbcs2026-admin/src/main/resources/application-prod.yml.tmp 
-        mv ticbcs2026-admin/src/main/resources/application-prod.yml.tmp ticbcs2026-admin/src/main/resources/application-prod.yml
+        envsubst < gftcma2026-admin/src/main/resources/application-prod.yml > gftcma2026-admin/src/main/resources/application-prod.yml.tmp 
+        mv gftcma2026-admin/src/main/resources/application-prod.yml.tmp gftcma2026-admin/src/main/resources/application-prod.yml
         
-        envsubst < ticbcs2026-admin/src/main/resources/payment_conf.xml > ticbcs2026-admin/src/main/resources/payment_conf.xml.tmp
-        mv ticbcs2026-admin/src/main/resources/payment_conf.xml.tmp ticbcs2026-admin/src/main/resources/payment_conf.xml
+        envsubst < gftcma2026-admin/src/main/resources/payment_conf.xml > gftcma2026-admin/src/main/resources/payment_conf.xml.tmp
+        mv gftcma2026-admin/src/main/resources/payment_conf.xml.tmp gftcma2026-admin/src/main/resources/payment_conf.xml
 
 
     - name:  使用 Maven 打包專案 (生成 JAR 檔)
       run: mvn clean package -DskipTests
 
     - name: 確認 target
-      run: jar tf ticbcs2026-admin/target/ticbcs2026-admin-0.0.1-SNAPSHOT.jar | grep application-prod
+      run: jar tf gftcma2026-admin/target/gftcma2026-admin-0.0.1-SNAPSHOT.jar | grep application-prod
       
     - name:  檢查 JAR 檔案是否存在
       run: |
         # 設定您預期的 JAR 檔名模式 (通常是 target/*.jar)
-        JAR_PATTERN="ticbcs2026-admin-0.0.1-SNAPSHOT*.jar"
+        JAR_PATTERN="gftcma2026-admin-0.0.1-SNAPSHOT*.jar"
         
         # 檢查 target/ 目錄下是否有符合模式的 JAR 檔
-        if [ -f ticbcs2026-admin/target/${JAR_PATTERN} ]; then
+        if [ -f gftcma2026-admin/target/${JAR_PATTERN} ]; then
           echo "JAR 檔案已成功生成並存在於 target/ 目錄。"
-          ls -l ticbcs2026-admin/target/ | grep "${JAR_PATTERN}"
+          ls -l gftcma2026-admin/target/ | grep "${JAR_PATTERN}"
         else
           echo "錯誤：找不到 JAR 檔案 target/${JAR_PATTERN}。"
           # 使用 exit 1 強制工作流程失敗，避免執行後續的部署步驟
@@ -70,7 +70,7 @@ jobs:
         host: ${{ secrets.GCP_VM_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "ticbcs2026-admin/target/ticbcs2026-admin-0.0.1-SNAPSHOT.jar"
+        source: "gftcma2026-admin/target/gftcma2026-admin-0.0.1-SNAPSHOT.jar"
         target: "/home/user/back-end"
         strip_components: 2
 
@@ -86,11 +86,11 @@ jobs:
           set -e
 
           BASE="/home/user/back-end"
-          SRC="$BASE/target/ticbcs2026-admin-0.0.1-SNAPSHOT.jar"
-          NEW="$BASE/ticbcs2026-admin-0.0.1-SNAPSHOT.jar.new"
-          APP="$BASE/ticbcs2026-admin-0.0.1-SNAPSHOT.jar"
+          SRC="$BASE/target/gftcma2026-admin-0.0.1-SNAPSHOT.jar"
+          NEW="$BASE/gftcma2026-admin-0.0.1-SNAPSHOT.jar.new"
+          APP="$BASE/gftcma2026-admin-0.0.1-SNAPSHOT.jar"
           LOG="$BASE/output.log"
-          BAK="$BASE/ticbcs2026-admin-0.0.1-SNAPSHOT.jar.bak"
+          BAK="$BASE/gftcma2026-admin-0.0.1-SNAPSHOT.jar.bak"
           if [ -f "$SRC" ]; then
               echo "偵測到新上傳的檔案，進行搬移..."
               [ -f "$APP" ] && mv "$APP" "$BAK"
@@ -103,7 +103,7 @@ jobs:
           fi
 
                # 只抓指定 JAR 的 PID
-          PIDS=$(ps aux | grep '[j]ava' | grep -v grep | grep "ticbcs2026-admin-0.0.1-SNAPSHOT.jar" | awk '{print $2}')
+          PIDS=$(ps aux | grep '[j]ava' | grep -v grep | grep "gftcma2026-admin-0.0.1-SNAPSHOT.jar" | awk '{print $2}')
           
           if [ -z "$PIDS" ]; then
               echo "目前沒有找到正在執行的 app.jar"

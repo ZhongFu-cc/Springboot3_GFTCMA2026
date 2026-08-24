@@ -11,10 +11,10 @@
     </parent>
     <packaging>pom</packaging>
     <groupId>tw.com</groupId>
-    <artifactId>ticbcs2026</artifactId>
+    <artifactId>gftcma2026</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ticbcs2026</name>
-    <description>TICBCS 2026 年會版 </description>
+    <name>gftcma2026</name>
+    <description>GFTCMA 2026 年會版 </description>
     <url />
     <licenses>
         <license />
@@ -334,6 +334,6 @@
 
 
     <modules>
-        <module>ticbcs2026-admin</module>
+        <module>gftcma2026-admin</module>
     </modules>
 </project>
