@@ -222,35 +222,35 @@ minio:
 # 自定義，專案相關
 project:
   # 專案域名
-  domain: https://gftcma.org.tw
+  domain: https://gftcma.zfsystem.com.tw
   # 活動名稱
   name: GFTCMA 2026
   # 活動名稱縮寫/別名
   alias: gftcma2026
   # 語言，可選值zh_TW / en ，用於選擇中文信zh_TW 或 英文信en
-  language: zh_TW
+  language: en
   # Banner 圖片
-  banner-url: https://gftcma.org.tw/img/banner.jpg
+  banner-url: https://gftcma.zfsystem.com.tw/img/banner.jpg
   # 群組相關，與一次寄送 email 數量有關
   group-size: 200
   # 報名模式，可選值: FREE / PREPAID / POSTPAID ，POSTPAID尚未實現
-  mode: FREE
+  mode: POSTPAID
 
   # email 相關
   email:
     # 寄件人信箱 (自定義domain 需搭配 spring.mail.* 使用 + brevo STMP ,才有效果)
     # Gmail的話可以直接填進from , 讓寄信和收信的信箱相同
-    from: notify@gftcma.org.tw
+    from: notify@gftcma.zfsystem.com.tw
     # 寄件人顯示名稱
     from-name: GFTCMA 2026 Notification
     # 回覆信箱
-    reply-to: twbc.prevention@gmail.com
+    reply-to: notify@gftcma.zfsystem.com.tw
     # 付款相關
   payment:
     # 付款後客戶返回的頁面
-    client-back-url: https://gftcma.org.tw/member
+    client-back-url: https://gftcma.zfsystem.com.tw/member
     # 付款後，金流系統返回結果的頁面，prod-api 為生產環境的判斷詞墜
-    return-url: https://gftcma.org.tw/prod-api/payment
+    return-url: https://gftcma.zfsystem.com.tw/prod-api/payment
     # 廠商訂單編號前墜,最多9碼,超過會被截斷
     prefix: gftcma
 

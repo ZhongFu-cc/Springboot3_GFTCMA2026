@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -52,6 +53,7 @@ import tw.com.gftcma.pojo.DTO.addEntityDTO.AddMemberDTO;
 import tw.com.gftcma.pojo.DTO.addEntityDTO.AddTagToMemberDTO;
 import tw.com.gftcma.pojo.DTO.putEntityDTO.PutMemberDTO;
 import tw.com.gftcma.pojo.DTO.putEntityDTO.PutMemberForAdminDTO;
+import tw.com.gftcma.pojo.VO.MemberImportResultVO;
 import tw.com.gftcma.pojo.VO.MemberOrderVO;
 import tw.com.gftcma.pojo.VO.MemberTagVO;
 import tw.com.gftcma.pojo.VO.MemberVO;
@@ -489,6 +491,25 @@ public class MemberController {
 	@GetMapping("/download-excel")
 	public void downloadExcel(HttpServletResponse response) throws IOException {
 		memberOrderManager.downloadExcel(response);
+	}
+
+	@Operation(summary = "下載會員名單匯入模板 (Excel)")
+	@SaCheckRole("super-admin")
+	@Parameters({
+			@Parameter(name = "Authorization", description = "請求頭token,token-value開頭必須為Bearer ", required = true, in = ParameterIn.HEADER) })
+	@GetMapping("/import-excel-template")
+	public void downloadImportTemplate(HttpServletResponse response) throws IOException {
+		memberRegistrationManager.generateImportTemplate(response);
+	}
+
+	@Operation(summary = "匯入會員名單 (Excel),同時產生 Member 與 Attendees,允許重複的 Email(會另外回報)")
+	@SaCheckRole("super-admin")
+	@Parameters({
+			@Parameter(name = "Authorization", description = "請求頭token,token-value開頭必須為Bearer ", required = true, in = ParameterIn.HEADER) })
+	@PostMapping("/import-excel")
+	public R<MemberImportResultVO> importMemberExcel(@RequestParam("file") MultipartFile file) throws IOException {
+		MemberImportResultVO result = memberRegistrationManager.importMemberExcel(file);
+		return R.ok(result);
 	}
 
 }
